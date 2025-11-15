@@ -264,7 +264,7 @@ if selection:
 
                 prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this: '{phrase}' Do not translate word-for-word. Instead, provide a culturally equivalent {selection}. Keep it funny if possible"
                 
-                result = generator(prompt, max_new_tokens=100)[0]["generated_text"]
+                result = generator(prompt, max_new_tokens=100, truncation=True, max_length=200)[0]["generated_text"]
                 
                 # Postprocess: take the part after the prompt
                 adapted = result.replace(prompt, "").strip().split("\n")[0]
