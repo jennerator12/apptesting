@@ -14,7 +14,7 @@ if selection:
     if st.button("Adapt Humor") and text.strip():
         try:
             # Hugging Face text generation pipeline
-            generator = pipeline("text-generation", model="gpt2-medium")
+            generator = pipeline("text-generation", model="gpt2", device=-1)
             raw = generator(
                 f"Rewrite this {selection.lower()} in {language} and keep it funny: {text}",
                 max_new_tokens=50,
