@@ -19,5 +19,5 @@ if selection:
             max_new_tokens=50,
             truncation=True
         )[0]["generated_text"]
-
+        adapted = raw.split("\n")[0]
         st.success(adapted)
