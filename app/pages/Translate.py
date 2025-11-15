@@ -1,6 +1,4 @@
 import streamlit as st
-from transformers import pipeline
-
 st.title("Humor Adapter")
 
 options = ["Idiom", "Emoji", "Joke"] 
@@ -77,5 +75,5 @@ if selection:
     language = st.selectbox("Adapt to language:", ["Spanish", "French", "Korean"])
 
     if st.button("Adapt Humor") and text.strip():
-        adapted = idioms_map.get(text, {}).get(language, "No equivalent found!")
+        adapted = humor_map.get(text, {}).get(language, "No equivalent found!")
         st.success(adapted)
