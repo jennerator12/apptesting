@@ -260,14 +260,14 @@ if selection:
                 from transformers import pipeline
 
                 # Small, free CPU-friendly model for text generation
-                generator = pipeline("text-generation", model="distilgpt2", device=-1)
+                generator = pipeline("text-generation", model="mpt-7b-instruct", device=-1)
 
                 prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this: '{phrase}' Do not translate word-for-word. Instead, provide a culturally equivalent {selection}. Keep it funny if possible"
                 
-                result = generator(prompt, max_new_tokens=50, truncation=True)[0]["generated_text"]
+                result = generator(prompt, max_new_tokens=100, truncation=True)[0]["generated_text"]
                 
                 # Postprocess: take the part after the prompt
-                adapted = result.replace(prompt, "").strip()
+                adapted = result.replace(prompt, "").strip().split("\n")[0]
                 
                 st.success(adapted)
             except Exception as e:
