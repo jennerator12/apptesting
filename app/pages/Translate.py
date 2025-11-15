@@ -260,7 +260,7 @@ if selection:
                 from transformers import pipeline
 
                 # Small, free CPU-friendly model for text generation
-                generator = pipeline("text-generation", model="bigscience/bloomz-560m", device=-1)
+                generator = pipeline("text-generation", model="tiiuae/falcon-7b-instruct", device=-1)
 
                 prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this: '{phrase}' Do not translate word-for-word. Instead, provide a culturally equivalent {selection}. Keep it funny if possible"
                 
