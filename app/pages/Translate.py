@@ -225,12 +225,20 @@ category_map = {
     "Saying": sayings
 }
 
-
-
 if selection:
-    # Show dropdown with options for that category
-    choices = category_map[selection]
-    text = st.selectbox(f"Select your {selection.lower()}:", choices)
+    # Dropdown of predefined phrases
+    predefined_choice = st.selectbox("Select a predefined phrase:", [""] + category_map[selection])
+
+    # Or type a new phrase
+    custom_text = st.text_input("Or type your own phrase:")
+
+    # Decide which one to use
+    if custom_text.strip():
+        phrase = custom_text.strip()
+        is_custom = True
+    else:
+        phrase = predefined_choice
+        is_custom = False
 
     # Language selection
     language = st.selectbox(
@@ -238,8 +246,29 @@ if selection:
         ["Spanish", "French", "Korean", "German", "Japanese", "Chinese"]
     )
 
-    # Button to adapt
-    if st.button("Adapt Humor") and text:
-        # Lookup in humor_map (keys are lowercase)
-        adapted = humor_map.get(text.lower(), {}).get(language, "No equivalent found!")
-        st.success(adapted)
+    if st.button("Adapt Humor") and phrase:
+        # If phrase is in dataset, return the predefined translation
+        key = phrase.lower()
+        if not is_custom and key in humor_map:
+            adapted = humor_map[key].get(language, "No equivalent found!")
+            st.success(adapted)
+        else:
+            # If custom, call a free AI model to generate a similar phrase
+            st.info("Looking for a culturally similar phrase...")
+            
+            try:
+                from transformers import pipeline
+
+                # Small, free CPU-friendly model for text generation
+                generator = pipeline("text-generation", model="distilgpt2", device=-1)
+
+                prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this English phrase: '{phrase}'"
+                
+                result = generator(prompt, max_new_tokens=50, truncation=True)[0]["generated_text"]
+                
+                # Postprocess: take the part after the prompt
+                adapted = result.replace(prompt, "").strip().split("\n")[0]
+                
+                st.success(adapted)
+            except Exception as e:
+                st.error(f"Error generating AI phrase: {e}")
