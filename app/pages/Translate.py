@@ -262,12 +262,12 @@ if selection:
                 # Small, free CPU-friendly model for text generation
                 generator = pipeline("text-generation", model="distilgpt2", device=-1)
 
-                prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this English phrase: '{phrase}'"
+                prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this phrase: '{phrase}'"
                 
                 result = generator(prompt, max_new_tokens=50, truncation=True)[0]["generated_text"]
                 
                 # Postprocess: take the part after the prompt
-                adapted = result.replace(prompt, "").strip().split("\n")[0]
+                adapted = result.replace(prompt, "").strip()
                 
                 st.success(adapted)
             except Exception as e:
