@@ -1,0 +1,21 @@
+import streamlit as st
+from transformers import pipeline
+
+st.title("Humor Adapter (No OpenAI)")
+
+options = ["Idiom", "Emoji", "Joke"]
+selection = st.radio("Type of Humor", options)
+
+if selection:
+    text = st.text_input(f"Enter your {selection.lower()}")
+    language = st.selectbox("Adapt to language:", ["Spanish", "French", "Korean"])
+
+    if st.button("Adapt Humor") and text:
+        # Hugging Face text generation pipeline
+        generator = pipeline("text-generation", model="gpt2")
+        adapted = generator(
+            f"Rewrite this {selection.lower()} in {language} and keep it funny: {text}",
+            max_length=100
+        )[0]["generated_text"]
+
+        st.success(adapted)
