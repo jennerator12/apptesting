@@ -3,8 +3,9 @@ from transformers import pipeline
 
 st.title("Humor Adapter (No OpenAI)")
 
-options = ["Idiom", "Emoji", "Joke"]
-selection = st.radio("Type of Humor", options)
+options = ["Idiom", "Emoji", "Joke"] 
+selection = st.segmented_control( "Type of Humor", options, selection_mode="single" ) 
+st.markdown(f"You selected: {selection}.")
 
 if selection:
     text = st.text_input(f"Enter your {selection.lower()}")
