@@ -75,5 +75,6 @@ if selection:
     language = st.selectbox("Adapt to language:", ["Spanish", "French", "Korean"])
 
     if st.button("Adapt Humor") and text.strip():
+        key = text.strip().lower()
         adapted = humor_map.get(text, {}).get(language, "No equivalent found!")
         st.success(adapted)
