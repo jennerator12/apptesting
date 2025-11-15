@@ -13,7 +13,7 @@ if selection:
 
     if st.button("Adapt Humor") and text:
         # Hugging Face text generation pipeline
-        generator = pipeline("text-generation", model="gpt2")
+        generator = pipeline("text-generation", model="gpt2-medium")
         adapted = generator(
             f"Rewrite this {selection.lower()} in {language} and keep it funny: {text}",
             max_new_tokens=50,
