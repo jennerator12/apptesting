@@ -262,7 +262,7 @@ if selection:
                 # Small, free CPU-friendly model for text generation
                 generator = pipeline("text-generation", model="distilgpt2", device=-1)
 
-                prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this phrase: '{phrase}' and keep it funny. Do not translate word-for-word."
+                prompt = f"Find a culturally equivalent {selection.lower()} in {language} for this: '{phrase}' Do not translate word-for-word. Instead, provide a culturally equivalent {selection}. Keep it funny if possible"
                 
                 result = generator(prompt, max_new_tokens=50, truncation=True)[0]["generated_text"]
                 
