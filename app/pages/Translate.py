@@ -16,7 +16,7 @@ if selection:
         generator = pipeline("text-generation", model="gpt2")
         adapted = generator(
             f"Rewrite this {selection.lower()} in {language} and keep it funny: {text}",
-            max_new_length=100,
+            max_new_tokens=100,
             truncation=True
         )[0]["generated_text"]
 
